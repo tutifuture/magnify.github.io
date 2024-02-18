@@ -1,0 +1,29 @@
+name: Ensure entries are unique
+
+on:
+  push:
+    paths:
+      - "Gemfile"
+      - "script/ensure-unique"
+      - ".github/workflows/ensure-unique.yml"
+      - "_data/**"
+  pull_request:
+    paths:
+      - "Gemfile"
+      - "script/ensure-unique"
+      - ".github/workflows/ensure-unique.yml"
+      - "_data/**"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+    - name: Ensure Orgs are unique
+      run: bundle exec script/ensure-unique

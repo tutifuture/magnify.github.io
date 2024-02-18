@@ -1,0 +1,31 @@
+name: Ensure entries are alphabetized
+
+on:
+  push:
+    paths:
+      - "Gemfile"
+      - "script/alphabetize"
+      - ".github/workflows/ensure-alphabetize.yml"
+      - "_data/**"
+  pull_request:
+    paths:
+      - "Gemfile"
+      - "script/alphabetize"
+      - ".github/workflows/ensure-alphabetize.yml"
+      - "_data/**"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+    - name: Ensure Orgs are sorted
+      run: |
+        bundle exec script/alphabetize
+        git diff --color --exit-code

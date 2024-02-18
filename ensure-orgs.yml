@@ -1,0 +1,29 @@
+name: Ensure entries are GitHub Orgs
+
+on:
+  push:
+    paths:
+      - "Gemfile"
+      - "script/ensure-orgs"
+      - ".github/workflows/ensure-orgs.yml"
+      - "_data/**"
+  pull_request:
+    paths:
+      - "Gemfile"
+      - "script/ensure-orgs"
+      - ".github/workflows/ensure-orgs.yml"
+      - "_data/**"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+    - name: Ensure data entries are GitHub Orgs
+      run: bundle exec script/ensure-orgs
